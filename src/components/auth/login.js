@@ -34,6 +34,18 @@ const styles = theme => ({
 });
 
 class login extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+
+    }
+  }
+
+  handleLogin = () => {
+      this.props.history.push('./home');
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -79,15 +91,16 @@ class login extends Component {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={this.handleLogin}
             >
               Sign In
           </Button>
             <Grid container>
-              <Grid item xs>
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
               </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
                 <Link href="signup" variant="body2">
                   {"Don't have an account? Sign Up"}
