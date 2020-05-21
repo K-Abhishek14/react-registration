@@ -17,8 +17,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
- 
-
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const drawerWidth = 240;
 
@@ -100,7 +101,7 @@ const styles = theme => ({
     height: 240,
   },
 });
- 
+
 
 class Dashboard extends Component {
   constructor(props) {
@@ -108,10 +109,19 @@ class Dashboard extends Component {
 
     this.state = {
       open: true,
+      anchorEl: null,
     }
   }
 
-    
+  handleClick = (e) => {
+    this.setState({ anchorEl: e.currentTarget });
+  }
+
+  handleClose = (e) => {
+    this.setState({ anchorEl: null });
+    this.props.history.push('/login');
+  }
+
 
   handleDrawerOpen = () => {
     this.setState({ open: true })
@@ -121,7 +131,7 @@ class Dashboard extends Component {
   };
   render() {
     const { classes } = this.props;
-    const {open} = this.state;
+    const { open, anchorEl } = this.state;
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -144,6 +154,25 @@ class Dashboard extends Component {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-haspopup="true"
+              color="inherit"
+              onClick={this.handleClick}
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={this.handleClose}
+            >
+              <MenuItem onClick={this.handleClose}>My account</MenuItem>
+              <MenuItem onClick={this.handleClose.bind(this)}>Logout</MenuItem>
+            </Menu>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -167,29 +196,29 @@ class Dashboard extends Component {
           <div className={classes.appBarSpacer} />
           <Container maxWidth="lg" className={classes.container}>
             <Grid container spacing={3}>
-              {/* Chart */}
+
               <Grid item xs={12} md={8} lg={9}>
                 <Paper  >
                   <h1>Chart</h1>
-                  {/* <Chart /> */}
+
                 </Paper>
               </Grid>
-              {/* Recent Deposits */}
+
               <Grid item xs={12} md={4} lg={3}>
                 <Paper  >
                   <h1>Deposits</h1>
-                  {/* <Deposits /> */}
+
                 </Paper>
               </Grid>
-              {/* Recent Orders */}
+
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
                   <h1>Orders</h1>
-                  {/* <Orders /> */}
+
                 </Paper>
               </Grid>
             </Grid>
-             
+
           </Container>
         </main>
       </div>
