@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -30,7 +29,7 @@ const styles = theme => ({
     margin: theme.spacing(3, 0, 2),
   },
 });
- 
+
 
 class login extends Component {
   constructor() {
@@ -47,17 +46,26 @@ class login extends Component {
 
   doLogin = (e) => {
     e.preventDefault()
-    axios
-      .post('http://192.168.10.135:8090/home/validation', this.state)
-      .then((res) => {
-        if (res.data === 'Welcome User') {
-          this.props.history.push("/dashboard");
-        }
-        else if (res.data === 'Authentication Fail') {
-          console.log(res.data);
-        }
-      })
-      .catch(error => { console.log(error) })
+    this.props.doCognitoLogin(this.state.username, this.state.userpassword);
+  }
+
+
+  static getDerivedStateFromProps(props, state) {
+    const { loginDetails } = props;
+    if (loginDetails.detail !== undefined && loginDetails.detail === 'Welcome User') {
+      props.history.push("/dashboard");
+    }
+    else if (loginDetails.detail !== undefined && loginDetails.detail === 'Authentication Fail') {
+      console.log("Authentication Fail");
+    }
+    return null;
+  }
+
+  enterPressed(e) {
+    var code = e.keyCode || e.which;
+    if (code === 13) {
+
+    }
   }
 
   render() {
@@ -65,67 +73,67 @@ class login extends Component {
     const { username, userpassword } = this.state
     return (
       <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
         </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Username"
-            name="username" value={username} 
-														onChange={this.changeHandler}
-            autoFocus
-            autoComplete = ""
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="userpassword" value={userpassword} onChange={this.changeHandler}
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={this.doLogin}
-          >
-            Sign In
+          <form className={classes.form} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Username"
+              name="username" value={username}
+              onChange={this.changeHandler}
+              autoFocus
+              autoComplete=""
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="userpassword" value={userpassword} onChange={this.changeHandler}
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={this.doLogin}
+            >
+              Sign In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
               </Link>
+              </Grid>
+              <Grid item>
+                <Link href="signup" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link href="signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      
-    </Container>
+          </form>
+        </div>
+
+      </Container>
     )
   }
 }
 export default login = withStyles(styles, { withTheme: true })(login)
- 
+

@@ -1,8 +1,8 @@
 import React from 'react';
-import PageSpinner from './components/PageSpinner';
+import PageSpinner from './components/common/PageSpinner';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-const SignIn = React.lazy(() => import('./components/auth/login'));
+const SignIn = React.lazy(() => import('./container/loginContainer'));
 const SignUp = React.lazy(() => import('./components/auth/SignUp'));
 const Dashboard = React.lazy(() => import('./components/home/Dashboard'));
 
