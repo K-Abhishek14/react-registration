@@ -1,4 +1,5 @@
 export const BACKEND_API_LOGIN_URL = 'http://192.168.10.135:8090/';
+export const BACKEND_API_SIGNUP_URL = 'http://192.168.10.135:9090/';
 
 /**
  * Reducer flags
